@@ -5,10 +5,6 @@ import java.util.Arrays;
 
 
 public class CryptoPOJO {
-    //=======================
-    // My solution
-    //=======================
-
 
     //Setting the parameter of KEY and Cipher_end as private constants, to improve encapsulation.
 
