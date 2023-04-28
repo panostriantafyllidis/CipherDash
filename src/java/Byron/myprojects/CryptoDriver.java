@@ -1,9 +1,13 @@
 package java.Byron.myprojects;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-//test
 public class CryptoDriver {
 
     public static void main(String[] args) {
@@ -18,6 +22,8 @@ public class CryptoDriver {
             System.out.println("Please select an option:");
             System.out.println("1. Encrypt a message");
             System.out.println("2. Decrypt a message");
+            System.out.println("3. Encrypt a file");
+            System.out.println("4. Decrypt a file");
             System.out.println("0. Exit");
 
             String input = sc.nextLine();
@@ -73,13 +79,38 @@ public class CryptoDriver {
                         }
                     }
                     break;
-                case "0":
-                    exit = true;
+                case "3":
+                    // Encrypt file
+                    System.out.println("Enter the path of the file to encrypt: ");
+                    String fileToEncrypt = sc.nextLine();
+                    System.out.println("Enter the path of the encrypted file: ");
+                    String encryptedFile = sc.nextLine();
+                    try {
+                        CryptoPOJO.encodeFile(fileToEncrypt, encryptedFile);
+                        System.out.println("File encrypted successfully.");
+                    } catch (IOException e) {
+                        System.out.println("Error encrypting file: " + e.getMessage());
+                    }
                     break;
+
+                case "4":
+                    // Decrypt file
+                    System.out.println("Enter the path of the encrypted file to decrypt: ");
+                    String fileToDecrypt = sc.nextLine();
+                    System.out.println("Enter the path of the decrypted file: ");
+                    String decryptedFile = sc.nextLine();
+                    try {
+                        CryptoPOJO.decodeFile(fileToDecrypt, decryptedFile);
+                        System.out.println("File decrypted successfully.");
+                    } catch (IOException e) {
+                        System.out.println("Error decrypting file: " + e.getMessage());
+                    }
+                    break;
+
                 default:
-                    System.out.println("Invalid option. Please select again.");
+                    System.out.println("Invalid choice. Please enter a number from 0-4.");
+                    break;
             }
         }
-        System.out.println("Thank you for using the Crypto program!");
     }
 }
