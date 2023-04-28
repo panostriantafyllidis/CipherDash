@@ -1,6 +1,11 @@
 package java.Byron.myprojects;
 
 import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 
@@ -71,5 +76,50 @@ public class CryptoPOJO {
         } catch (NumberFormatException e) {
             return -1;
         }
+    }
+
+    // A method to encode a text file and export the encoded text to a new file
+    public static void encodeFile(String inputFilePath, String outputFilePath) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(inputFilePath));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath));
+
+        String line = reader.readLine();
+        while (line != null) {
+            int[] encodedLine = encrypt(line);
+            if (encodedLine != null) {
+                for (int code : encodedLine) {
+                    writer.write(code + " ");
+                }
+                writer.newLine();
+            }
+            line = reader.readLine();
+        }
+
+        reader.close();
+        writer.close();
+    }
+
+    // A method to decode a text file and export the decoded text to a new file
+    public static void decodeFile(String inputFilePath, String outputFilePath) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(inputFilePath));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath));
+
+        String line = reader.readLine();
+        while (line != null) {
+            String[] codes = line.split(" ");
+            int[] intCodes = new int[codes.length];
+            for (int i = 0; i < codes.length; i++) {
+                intCodes[i] = parseInput(codes[i]);
+            }
+            String decodedLine = decrypt(intCodes);
+            if (decodedLine != null) {
+                writer.write(decodedLine);
+                writer.newLine();
+            }
+            line = reader.readLine();
+        }
+
+        reader.close();
+        writer.close();
     }
 }
