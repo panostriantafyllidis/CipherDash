@@ -1,4 +1,4 @@
-package java.Byron.myprojects;
+package com.Byron.myprojects;
 
 import java.io.IOException;
 import java.util.Arrays;

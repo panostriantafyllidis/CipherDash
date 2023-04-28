@@ -1,4 +1,4 @@
-package java.Byron.myprojects;
+package com.Byron.myprojects;
 
 import java.util.Arrays;
 import java.io.BufferedReader;
