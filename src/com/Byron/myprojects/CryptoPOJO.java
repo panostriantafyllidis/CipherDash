@@ -9,6 +9,7 @@ import java.io.IOException;
 
 
 
+
 public class CryptoPOJO {
 
     //Setting the parameter of KEY and Cipher_end as private constants, to improve encapsulation.
@@ -21,7 +22,7 @@ public class CryptoPOJO {
 
         if (message == null || message.isEmpty() ) return null;
 
-        int[] cipher = new int[100];
+        int[] cipher = new int[message.length() + 2]; // dynamically allocate array
         int pivot = 0;
 
         char ch = message.charAt(pivot);
@@ -47,7 +48,6 @@ public class CryptoPOJO {
     public static String decrypt(int[] cipher) {
 
         if (cipher==null) return null;
-        StringBuilder decipherBuilder = new StringBuilder();
         int pivot = 0;
         char charDecipher;
 
@@ -55,6 +55,7 @@ public class CryptoPOJO {
         if (current == CIPHER_END) {
             return null;
         }
+        StringBuilder decipherBuilder = new StringBuilder();
         decipherBuilder.append((char) current);
         int previousCode = current;
 
@@ -78,21 +79,27 @@ public class CryptoPOJO {
         }
     }
 
+
     // A method to encode a text file and export the encoded text to a new file
     public static void encodeFile(String inputFilePath, String outputFilePath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inputFilePath));
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath));
 
         String line = reader.readLine();
+        StringBuilder builder = new StringBuilder();
         while (line != null) {
-            int[] encodedLine = encrypt(line);
-            if (encodedLine != null) {
-                for (int code : encodedLine) {
-                    writer.write(code + " ");
-                }
-                writer.newLine();
-            }
+            builder.append(line); // append the line to the StringBuilder
+            builder.append(System.lineSeparator()); // add the line separator
             line = reader.readLine();
+        }
+        builder.append("#"); // add "#" at the end of the entire input text
+        int[] encodedText = encrypt(builder.toString());
+        if (encodedText != null) {
+            StringBuilder encodedBuilder = new StringBuilder();
+            for (int code : encodedText) {
+                encodedBuilder.append(code).append(" ");
+            }
+            writer.write(encodedBuilder.toString());
         }
 
         reader.close();
@@ -113,7 +120,7 @@ public class CryptoPOJO {
             }
             String decodedLine = decrypt(intCodes);
             if (decodedLine != null) {
-                writer.write(decodedLine);
+                writer.write(decodedLine.replaceAll("<tab>", "\t"));
                 writer.newLine();
             }
             line = reader.readLine();
@@ -121,7 +128,6 @@ public class CryptoPOJO {
 
         reader.close();
         writer.close();
-
     }
 
 

@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import static com.Byron.myprojects.CryptoPOJO.decodeFile;
+import static com.Byron.myprojects.CryptoPOJO.encodeFile;
+
 public class CryptoDriver {
 
     public static void main(String[] args) {
@@ -23,6 +26,8 @@ public class CryptoDriver {
             System.out.println("0. Exit");
 
             String input = sc.nextLine();
+            String inputFilePath="";
+            String outputFilePath= "";
             boolean validInput = false;
             switch (input) {
 
@@ -75,34 +80,31 @@ public class CryptoDriver {
                         }
                     }
                     break;
-                case "3":
-                    // Encrypt file
-                    System.out.println("Enter the path of the file to encrypt: ");
-                    String fileToEncrypt = sc.nextLine();
-                    System.out.println("Enter the path of the encrypted file: ");
-                    String encryptedFile = sc.nextLine();
+                case "3": // Encode a file
+                    System.out.println("Enter the path of the file to encode: ");
+                    inputFilePath = sc.nextLine();
+                    System.out.println("Enter the name of the output file: ");
+                    outputFilePath = "C:\\Users\\takis\\Downloads\\" + sc.nextLine() + ".txt";
                     try {
-                        CryptoPOJO.encodeFile(fileToEncrypt, encryptedFile);
-                        System.out.println("File encrypted successfully.");
+                        encodeFile(inputFilePath, outputFilePath);
+                        System.out.println("File encoded successfully!");
                     } catch (IOException e) {
-                        System.out.println("Error encrypting file: " + e.getMessage());
+                        System.out.println("An error occurred while encoding the file: " + e.getMessage());
                     }
                     break;
 
-                case "4":
-                    // Decrypt file
-                    System.out.println("Enter the path of the encrypted file to decrypt: ");
-                    String fileToDecrypt = sc.nextLine();
-                    System.out.println("Enter the path of the decrypted file: ");
-                    String decryptedFile = sc.nextLine();
+                case "4": // Decode a file
+                    System.out.println("Enter the path of the file to decode: ");
+                    inputFilePath = sc.nextLine();
+                    System.out.println("Enter the name of the output file: ");
+                    outputFilePath = "C:\\Users\\takis\\Downloads\\" + sc.nextLine() + ".txt";
                     try {
-                        CryptoPOJO.decodeFile(fileToDecrypt, decryptedFile);
-                        System.out.println("File decrypted successfully.");
+                        decodeFile(inputFilePath, outputFilePath);
+                        System.out.println("File decoded successfully!");
                     } catch (IOException e) {
-                        System.out.println("Error decrypting file: " + e.getMessage());
+                        System.out.println("An error occurred while decoding the file: " + e.getMessage());
                     }
                     break;
-
                 default:
                     System.out.println("Invalid choice. Please enter a number from 0-4.");
                     break;
