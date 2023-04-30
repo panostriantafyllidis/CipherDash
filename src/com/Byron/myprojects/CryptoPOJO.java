@@ -19,23 +19,38 @@ public class CryptoPOJO {
 
     // The method in which encryption takes place.
     public static int[] encrypt(String message) {
-
-        if (message == null || message.isEmpty() ) return null;
-
-        int[] cipher = new int[message.length() + 2]; // dynamically allocate array
-        int pivot = 0;
-
-        char ch = message.charAt(pivot);
-        if (ch == '#') {
+        if (message == null || message.isEmpty()) {
             return null;
         }
 
-        int charCipher = ch;
+        int[] cipher = new int[message.length() + 2];
+        int pivot = 0;
+
+        int codePoint = message.codePointAt(pivot);
+        if (codePoint == '#') {
+            return null;
+        }
+
+        int charCipher;
+        if (Character.UnicodeBlock.of(codePoint) == Character.UnicodeBlock.BASIC_LATIN) {
+            // encode as ASCII
+            charCipher = codePoint;
+        } else {
+            // encode as Unicode
+            charCipher = KEY + codePoint; // add KEY to distinguish from ASCII
+        }
         cipher[pivot++] = charCipher;
         int previous = charCipher;
 
-        while ((ch = message.charAt(pivot)) != '#') {
-            charCipher = (ch + previous) % KEY;
+        while (pivot < message.length()) {
+            codePoint = message.codePointAt(pivot);
+            if (Character.UnicodeBlock.of(codePoint) == Character.UnicodeBlock.BASIC_LATIN) {
+                // encode as ASCII
+                charCipher = (codePoint + previous) % KEY;
+            } else {
+                // encode as Unicode
+                charCipher = KEY + codePoint + previous;
+            }
             cipher[pivot++] = charCipher;
             previous = charCipher;
         }
@@ -44,30 +59,47 @@ public class CryptoPOJO {
         return Arrays.copyOfRange(cipher, 0, pivot);
     }
 
+
     // The method in which the decryption takes place.
     public static String decrypt(int[] cipher) {
+        if (cipher == null) {
+            return null;
+        }
 
-        if (cipher==null) return null;
         int pivot = 0;
-        char charDecipher;
-
         int current = cipher[pivot];
         if (current == CIPHER_END) {
             return null;
         }
+
         StringBuilder decipherBuilder = new StringBuilder();
-        decipherBuilder.append((char) current);
+        if (current < KEY) {
+            // ASCII character
+            decipherBuilder.appendCodePoint(current);
+        } else {
+            // Unicode character
+            int codePoint = current - KEY;
+            decipherBuilder.appendCodePoint(codePoint);
+        }
         int previousCode = current;
 
         while ((current = cipher[++pivot]) != CIPHER_END) {
-
-            charDecipher = (char) (KEY + current - previousCode);
-            while (charDecipher > KEY) charDecipher -= KEY;
+            int codePoint;
+            if (current < KEY) {
+                // ASCII character
+                codePoint = (KEY + current - previousCode) % KEY;
+            } else {
+                // Unicode character
+                codePoint = current - KEY - previousCode;
+            }
+            char charDecipher = (char) codePoint;
             decipherBuilder.append(charDecipher);
             previousCode = current;
         }
+
         return decipherBuilder.toString();
     }
+
 
     // The method which we use to split the encoded number-message, into smaller 'tokens'
     // which we'll use to translate into characters, after-which we'll merge into words.
