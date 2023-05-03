@@ -1,11 +1,11 @@
-package com.Byron.myprojects;
+package com.Byron.cipherdash;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import static com.Byron.myprojects.CryptoPOJO.decodeFile;
-import static com.Byron.myprojects.CryptoPOJO.encodeFile;
+import static com.Byron.cipherdash.CryptoPOJO.decodeFile;
+import static com.Byron.cipherdash.CryptoPOJO.encodeFile;
 
 public class CryptoDriver {
 

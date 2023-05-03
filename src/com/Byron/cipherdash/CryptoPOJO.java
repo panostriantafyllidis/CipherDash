@@ -1,4 +1,4 @@
-package com.Byron.myprojects;
+package com.Byron.cipherdash;
 
 import java.util.Arrays;
 import java.io.BufferedReader;
