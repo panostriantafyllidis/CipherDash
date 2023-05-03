@@ -1,30 +1,16 @@
 
 # CipherDash
 
-• Κωδικοποίησε τον 1ο χαρακτήρα του
-μηνύματος με την ακέραια τιμή που
-αντιστοιχεί σε αυτόν (από τον κώδικα ASCII)
+Task:  (the original as seen below , was changed once I got bored and started playing with it)
 
-• Κωδικοποίησε του επόμενους χαρακτήρες: (α)
-προσθέτοντας την ακέραια ASCII τιμή του
-καθένα από αυτούς με τον κωδικό του
-προηγούμενού του, (β) παίρνοντας το
-υπόλοιπο της διαίρεσης του αθροίσματος
-αυτού διά μία σταθερά
+• Encode the 1st character of the message with its corresponding integer value (from ASCII code)
 
-• Η σταθερά ονομάζεται κλειδί (key)
-κρυπτογράφησης και (υποτίθεται πως) είναι
-μυστική
+• Encode the following characters: (a) by adding the ASCII integer value of each of them to the code of its predecessor, (b) taking the remainder of dividing this sum by a constant
 
-• Υποθέτουμε πως τα μηνύματα τελειώνουν με
-τον χαρακτήρα #
+• The constant is called the encryption key and is (supposedly) secret
 
-• Γράψτε ένα πρόγραμμα java που να υλοποιεί
-τον αλγόριθμο κρυπτογράφησης έτσι ώστε το
-κωδικοποιημένο μήνυμα που προκύπτει να είναι
-μία ακολουθία ακεραίων που τελειώνει με -1
+• We assume that messages end with the character #
 
-• Γράψτε και τον αλγόριθμο αποκρυπτογράφησης
-που λαμβάνει ως είσοδο μία ακολουθία
-ακεραίων που τελειώνει με -1 και υπολογίζει το
-αρχικό μήνυμα
+• Write a java program that implements the encryption algorithm so that the resulting encoded message is a sequence of integers ending with -1
+
+• Write also the decryption algorithm that takes as input a sequence of integers ending with -1 and computes the original message
